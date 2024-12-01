@@ -36,7 +36,6 @@ app.get('/',(req,res) =>{
     res.status(200).send("hello world");
 });
 
-
 app.get('/gauss',(req,res) =>{
     var n = req.query.n;
     if (n==undefined){
@@ -48,7 +47,23 @@ app.get('/gauss',(req,res) =>{
 
 
 
-
+app.get('/cmmdc', (req, res) =>{
+    var a=req.query.a;
+    var b=req.query.b;
+    if (a==undefined || b==undefined){
+        res.status(400).send("Provide two numbers for cmmdc!")}
+    else {
+        while( b!=a){
+            if( a> b){
+                a=parseInt(a)-parseInt(b);
+            }
+            else{
+                b=parseInt(b)-parseInt(a);
+            } 
+        }
+        res.status(200).send({cmmdc: a});     
+    }
+})
 
 
 
