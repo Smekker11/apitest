@@ -1,9 +1,32 @@
-const express = require('express');
-const app = require('express')();
+import {Sequelize} from "sequelize";
+import  express  from "express";
+const app = express();
+
+
+import { User } from "./models/users.model.js"  // Import the User model
 const PORT = 8080;
+
 
 app.use(express.json())
 
+app.get('/users*', (req,res) =>{
+  res.status(400).send("GET method not supported while interacting with DB!");
+})
+
+app.post('/users/add',async (req,res) =>{
+    await User.create(req.body);
+    res.status(200).send("created user:" + JSON.stringify(req.body));
+});
+
+app.post('/users/list', async (req, res) => {
+    try {
+      const users = await User.findAll();
+      res.status(200).json(users);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'An error occurred while fetching users.' });
+    }
+  });
 
 app.post('/',(req,res) =>{
     res.status(200).send("hello world but posts");
