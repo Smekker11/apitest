@@ -14,7 +14,7 @@ export const userAdd = async (req,res) =>{
      res.status(200).send("created user:" + JSON.stringify(req.body));
     } catch (err) {
         console.warn(err.message);
-        res.status(500).json(ApiErrDetails);
+        res.status(500).json(ApiErrDetails(err));
     }
 };
 
@@ -25,14 +25,16 @@ export const listUsers = async (req,res) =>{
         res.status(200).json(users);
       } catch (err) {
         console.warn(err.message);
-        res.status(500).json(ApiErrDetails);
+        res.status(500).json(ApiErrDetails(err));
       }
 };
 
-const ApiErrDetails = [
-    { 
-        "error": 'Catastrophic Failure!',
-        "message": err.message
+const ApiErrDetails = (err) =>{
+    return [{
+        "error": "Catastrophic Failure!",
+        "message": err.message,
+
     },
     {"stack-trace": util.inspect(err, { showHidden: true, depth: 0 })}
-];
+ ]
+};
